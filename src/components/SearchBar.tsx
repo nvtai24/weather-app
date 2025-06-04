@@ -48,7 +48,10 @@ const SearchBar: FC<SearchBarProps> = ({
           </button>
         </form>
 
-        <motion.button className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center transition-colors hover:bg-white/30 disabled:opacity-50">
+        <motion.button
+          className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center transition-colors hover:bg-white/30 disabled:opacity-50"
+          onClick={onLocationRequest}
+        >
           <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />
         </motion.button>
       </motion.div>

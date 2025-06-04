@@ -10,6 +10,8 @@ import {
   Eye,
   Sun,
   SunMoon,
+  Sunrise,
+  Sunset,
   Thermometer,
   Wind,
 } from "lucide-react";
@@ -17,7 +19,7 @@ import type { FC } from "react";
 import type { TemperatureUnit, WeatherData } from "../types/Weather";
 
 interface WeatherCardProps {
-  data: WeatherData;
+  data: WeatherData | null;
   unit: TemperatureUnit;
 }
 
@@ -25,19 +27,25 @@ const WeatherCard: FC<WeatherCardProps> = ({ data, unit }) => {
   const getWeatherIcon = (condition: string) => {
     switch (condition.toLowerCase()) {
       case "clear":
-        return <Sun className="w-8 h-8 text-yellow-500" />;
+        return <Sun className="w-12 h-12 sm:w-16 sm:h-16 text-yellow-500" />;
       case "clouds":
-        return <Cloud className="w-8 h-8 text-gray-500" />;
+        return <Cloud className="w-12 h-12 sm:w-16 sm:h-16 text-gray-500" />;
       case "rain":
-        return <CloudRain className="w-8 h-8 text-blue-500" />;
+        return (
+          <CloudRain className="w-12 h-12 sm:w-16 sm:h-16 text-blue-500" />
+        );
       case "snow":
-        return <CloudSnow className="w-8 h-8 text-white" />;
+        return <CloudSnow className="w-12 h-12 sm:w-16 sm:h-16 text-white" />;
       case "thunderstorm":
-        return <CloudLightning className="w-8 h-8 text-purple-500" />;
+        return (
+          <CloudLightning className="w-12 h-12 sm:w-16 sm:h-16 text-purple-500" />
+        );
       case "drizzle":
-        return <CloudDrizzle className="w-8 h-8 text-yellow-300" />;
+        return (
+          <CloudDrizzle className="w-12 h-12 sm:w-16 sm:h-16 text-yellow-300" />
+        );
       default:
-        return <Droplets className="w-8 h-8 text-gray-400" />;
+        return <Droplets className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400" />;
     }
   };
 
@@ -67,21 +75,19 @@ const WeatherCard: FC<WeatherCardProps> = ({ data, unit }) => {
     >
       <div className="flex flex-col items-center">
         <div className="flex items-center gap-2">
-          <h2 className="text-2xl sm:text-3xl font-bold">
-            {/* {data.name} */}
-          </h2>
+          <h2 className="text-2xl sm:text-3xl font-bold">{data.name}</h2>
           <span className="text-lg sm:text-xl">{/* {data.sys.country} */}</span>
         </div>
       </div>
 
       <div className="mt-4 sm:mt-6 flex items-center justify-center w-full">
-        {/* {getWeatherIcon(data.weather[0].main)} */}
+        {getWeatherIcon(data.weather[0].main)}
         <div className="ml-4">
           <span className="text-4xl sm:text-5xl lg:text-6xl font-light">
-            {/* {Math.round(data.main.temp)} {getUnitSymbol()} */}
+            {Math.round(data.main.temp)} {getUnitSymbol()}
           </span>
           <p className="text-xl sm:text-xl capitalize">
-            {/* {data.weather[0].description} */}
+            {data.weather[0].description}
           </p>
         </div>
 
@@ -91,7 +97,7 @@ const WeatherCard: FC<WeatherCardProps> = ({ data, unit }) => {
             <div>
               <p className="opacity-70">Feels like</p>
               <p className="font-semibold">
-                {/* {Math.round(data.main.feels_like)} {getUnitSymbol} */}
+                {Math.round(data.main.feels_like)} {getUnitSymbol}
               </p>
             </div>
           </div>
@@ -101,7 +107,7 @@ const WeatherCard: FC<WeatherCardProps> = ({ data, unit }) => {
             <div>
               <p className="opacity-70">Humidity</p>
               <p className="font-semibold">
-                {/* {Math.round(data.main.humidity)} {getUnitSymbol()} */}
+                {Math.round(data.main.humidity)} {getUnitSymbol()}
               </p>
             </div>
           </div>
@@ -111,7 +117,7 @@ const WeatherCard: FC<WeatherCardProps> = ({ data, unit }) => {
             <div>
               <p className="opacity-70">Wind</p>
               <p className="font-semibold">
-                {/* {Math.round(data.wind.speed)} {getSpeedUnit()} */}
+                {Math.round(data.wind.speed)} {getSpeedUnit()}
               </p>
             </div>
           </div>
@@ -120,9 +126,7 @@ const WeatherCard: FC<WeatherCardProps> = ({ data, unit }) => {
             <Compass className="w-6 h-6 " />
             <div>
               <p className="opacity-70">Direction</p>
-              <p className="font-semibold">
-                {/* {getWindDirection(data.wind.deg)} */}
-              </p>
+              <p className="font-semibold">{getWindDirection(data.wind.deg)}</p>
             </div>
           </div>
 
@@ -130,7 +134,7 @@ const WeatherCard: FC<WeatherCardProps> = ({ data, unit }) => {
             <Eye className="w-6 h-6 " />
             <div>
               <p className="opacity-70">Visibility</p>
-              <p className="font-semibold">{/* {data.visibility} */}</p>
+              <p className="font-semibold">{data?.visibility}</p>
             </div>
           </div>
 
@@ -139,9 +143,28 @@ const WeatherCard: FC<WeatherCardProps> = ({ data, unit }) => {
             <div>
               <p className="opacity-70">Min/Max</p>
               <p className="font-semibold">
-                {/* {Math.round(data.main.temp_min)} / {data.main.temp_max}
-                {getUnitSymbol()} */}
+                {Math.floor(data.main.temp_min)} /
+                {Math.ceil(data.main.temp_max)}
+                {getUnitSymbol()}
               </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
+              <Sunrise className="w-4 h-4 text-yellow-300" />
+              <div>
+                <p className="opacity-70">Sunrise</p>
+                <p className="font-semibold">{formatTime(data.sys.sunrise)}</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Sunset className="w-4 h-4 text-orange-300" />
+              <div>
+                <p className="opacity-70">Sunset</p>
+                <p className="font-semibold">{formatTime(data.sys.sunset)}</p>
+              </div>
             </div>
           </div>
         </div>
