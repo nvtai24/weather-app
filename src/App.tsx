@@ -92,6 +92,8 @@ const App = () => {
   };
 
   const handleLocationRequest = () => {
+    setLastSearchCity(null);
+
     if (!navigator.geolocation) {
       setError("Geolocation is not supported by this browser.");
       return;
@@ -136,9 +138,9 @@ const App = () => {
   }, []);
 
   return (
-    <div className="min-h-screen w-full px-4 py-8 md:p-8 flex flex-col items-center bg-gradient-to-br from-blue-500 via-blue-400  to-blue-300">
-      <div className="w-full max-w-7xl mx-auto">
-        <div className="flex flex-col sm:flex-row items-center gap-4 mb-4">
+    <div className="min-h-screen w-full px-2 sm:px-4 py-6 sm:py-8 md:p-8 flex flex-col items-center bg-[url('./src/assets/background.jpg')] bg-cover bg-center bg-no-repeat">
+      <div className="w-full max-w-full sm:max-w-3xl md:max-w-5xl lg:max-w-7xl mx-auto">
+        <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mb-4 w-full">
           <SearchBar
             onSearch={handleSearch}
             onLocationRequest={handleLocationRequest}
@@ -195,7 +197,7 @@ const App = () => {
           </motion.div>
         )}
 
-        <div className="mt-8 flex flex-col lg:flex-row gap-8 items-center lg:items-start justify-center">
+        <div className="mt-8 flex flex-col lg:flex-row gap-6 md:gap-8 items-center lg:items-start justify-center w-full">
           {weather && <WeatherCard data={weather} unit={unit} />}
           {forecast && <Forecast data={forecast} unit={unit} />}
         </div>

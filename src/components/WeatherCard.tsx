@@ -25,7 +25,26 @@ interface WeatherCardProps {
 }
 
 const WeatherCard: FC<WeatherCardProps> = ({ data, unit }) => {
-  if (!data) return null;
+  if (!data) {
+    // Skeleton loading
+    return (
+      <div className="relative bg-white/10 border border-white/30 shadow-2xl rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-10 text-white w-full max-w-xs sm:max-w-md md:max-w-lg mx-auto backdrop-blur-2xl overflow-hidden animate-pulse">
+        <div className="h-8 w-1/2 bg-white/20 rounded mb-4 mx-auto" />
+        <div className="flex items-center justify-center mb-6">
+          <div className="w-20 h-20 bg-white/20 rounded-full" />
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4 mb-4">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="h-16 bg-white/20 rounded-xl" />
+          ))}
+        </div>
+        <div className="flex justify-center gap-4">
+          <div className="h-8 w-24 bg-white/20 rounded-xl" />
+          <div className="h-8 w-24 bg-white/20 rounded-xl" />
+        </div>
+      </div>
+    );
+  }
 
   const getWeatherIcon = (condition: string) => {
     switch (condition.toLowerCase()) {
@@ -72,7 +91,7 @@ const WeatherCard: FC<WeatherCardProps> = ({ data, unit }) => {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
-      className="relative bg-white/10 border border-white/30 shadow-2xl rounded-3xl p-6 sm:p-10 text-white w-full max-w-md mx-auto backdrop-blur-2xl overflow-hidden"
+      className="relative bg-white/10 border border-white/30 shadow-2xl rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-10 text-white w-full max-w-xs sm:max-w-md md:max-w-lg mx-auto backdrop-blur-2xl overflow-hidden"
       style={{ boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)" }}
     >
       {/* Gradient border overlay */}
@@ -81,31 +100,31 @@ const WeatherCard: FC<WeatherCardProps> = ({ data, unit }) => {
         style={{ zIndex: 0 }}
       />
       {/* City & Country */}
-      <div className="relative z-10 flex flex-col items-center gap-2 mb-4">
+      <div className="relative z-10 flex flex-col items-center gap-1 sm:gap-2 mb-2 sm:mb-4">
         <div className="flex items-center gap-2">
           <MapPin className="w-6 h-6 text-pink-300" />
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight drop-shadow-lg">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight drop-shadow-lg">
             {data.name}
           </h2>
-          <span className="text-lg sm:text-xl font-semibold text-blue-200/80 ml-1">
+          <span className="text-base sm:text-lg md:text-xl font-semibold text-blue-200/80 ml-1">
             {data.sys.country}
           </span>
         </div>
-        <div className="flex items-center gap-4 mt-2">
+        <div className="flex items-center gap-2 sm:gap-4 mt-1 sm:mt-2">
           {getWeatherIcon(data.weather[0].main)}
           <div className="ml-2 flex flex-col items-start">
-            <span className="text-5xl sm:text-6xl font-light drop-shadow-xl">
+            <span className="text-4xl sm:text-5xl md:text-6xl font-light drop-shadow-xl">
               {Math.round(data.main.temp)}
               {getUnitSymbol()}
             </span>
-            <span className="text-xl capitalize text-white/80 font-medium">
+            <span className="text-lg sm:text-xl capitalize text-white/80 font-medium">
               {data.weather[0].description}
             </span>
           </div>
         </div>
       </div>
       {/* Weather details grid */}
-      <div className="relative z-10 mt-6 grid grid-cols-2 sm:grid-cols-3 gap-4 text-base">
+      <div className="relative z-10 mt-4 sm:mt-6 grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4 text-sm sm:text-base">
         {/* Feels like */}
         <motion.div
           whileHover={{ scale: 1.08 }}
@@ -176,15 +195,15 @@ const WeatherCard: FC<WeatherCardProps> = ({ data, unit }) => {
         </motion.div>
       </div>
       {/* Sunrise & Sunset */}
-      <div className="relative z-10 mt-6 flex flex-col sm:flex-row items-center justify-center gap-6">
-        <div className="flex items-center gap-2 bg-white/10 rounded-xl px-4 py-2 shadow hover:bg-white/20 transition">
+      <div className="relative z-10 mt-4 sm:mt-6 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+        <div className="flex items-center gap-1 sm:gap-2 bg-white/10 rounded-xl px-2 sm:px-4 py-1 sm:py-2 shadow hover:bg-white/20 transition">
           <Sunrise className="w-6 h-6 text-yellow-300" />
           <span className="text-xs text-white/70">Sunrise</span>
           <span className="font-semibold ml-1">
             {formatTime(data.sys.sunrise)}
           </span>
         </div>
-        <div className="flex items-center gap-2 bg-white/10 rounded-xl px-4 py-2 shadow hover:bg-white/20 transition">
+        <div className="flex items-center gap-1 sm:gap-2 bg-white/10 rounded-xl px-2 sm:px-4 py-1 sm:py-2 shadow hover:bg-white/20 transition">
           <Sunset className="w-6 h-6 text-orange-300" />
           <span className="text-xs text-white/70">Sunset</span>
           <span className="font-semibold ml-1">
