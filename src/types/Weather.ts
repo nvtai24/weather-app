@@ -60,4 +60,4 @@ export interface WeatherForecast {
   }[]; // array of forecast data
 }
 
-export type TemperatureUnit = "Celsius" | "Fahrenheit";
+export type TemperatureUnit = "celsius" | "fahrenheit";
