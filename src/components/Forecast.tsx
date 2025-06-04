@@ -77,12 +77,12 @@ const Forecast: FC<ForecastProps> = ({ data, unit }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}
-      className="w-full lg:max-w-xl"
+      className="w-full max-w-xs sm:max-w-lg md:lg:max-w-xl"
     >
-      <h3 className="text-white text-xl font-bold mb-4 tracking-tight drop-shadow-lg">
+      <h3 className="text-white text-lg sm:text-xl font-bold mb-2 sm:mb-4 tracking-tight drop-shadow-lg">
         5-Day Forecast
       </h3>
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-4">
         {dailyForecasts.map((forecast, index) => (
           <motion.div
             key={forecast.dt}
@@ -90,7 +90,7 @@ const Forecast: FC<ForecastProps> = ({ data, unit }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.1 }}
             whileHover={{ scale: 1.07 }}
-            className="relative bg-white/10 border border-white/20 rounded-2xl p-4 flex flex-col items-center text-white shadow-xl backdrop-blur-xl overflow-hidden transition"
+            className="relative bg-white/10 border border-white/20 rounded-xl sm:rounded-2xl p-2 sm:p-4 flex flex-col items-center text-white shadow-xl backdrop-blur-xl overflow-hidden transition"
             style={{ boxShadow: "0 4px 24px 0 rgba(31, 38, 135, 0.18)" }}
           >
             {/* Gradient border overlay */}
@@ -99,15 +99,15 @@ const Forecast: FC<ForecastProps> = ({ data, unit }) => {
               style={{ zIndex: 0 }}
             />
             <div className="relative z-10 flex flex-col items-center">
-              <p className="text-sm font-semibold mb-2 text-white/80 tracking-wide">
+              <p className="text-xs sm:text-sm font-semibold mb-1 sm:mb-2 text-white/80 tracking-wide">
                 {getDayName(forecast.dt)}
               </p>
               {getWeatherIcon(forecast.weather[0].main)}
-              <p className="text-2xl font-bold mt-2 drop-shadow-xl">
+              <p className="text-xl sm:text-2xl font-bold mt-1 sm:mt-2 drop-shadow-xl">
                 {Math.round(forecast.main.temp)}
                 {getUnitSymbol()}
               </p>
-              <div className="mt-2 flex flex-col gap-1 w-full text-xs opacity-80">
+              <div className="mt-1 sm:mt-2 flex flex-col gap-0.5 sm:gap-1 w-full text-xs opacity-80">
                 <div className="flex items-center justify-center gap-1">
                   <Droplets className="w-4 h-4 mr-1 text-sky-200" />
                   {forecast.main.humidity}%

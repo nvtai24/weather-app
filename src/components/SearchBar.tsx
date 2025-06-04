@@ -27,9 +27,9 @@ const SearchBar: FC<SearchBarProps> = ({
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="w-full max-w-md mx-auto flex gap-3"
+      className="w-full max-w-xs sm:max-w-md mx-auto flex flex-col sm:flex-row gap-2 sm:gap-3"
     >
-      <form onSubmit={handleSubmit} className="flex-1 relative">
+      <form onSubmit={handleSubmit} className="flex-1 relative mb-2 sm:mb-0">
         <input
           type="text"
           value={query}
@@ -47,7 +47,7 @@ const SearchBar: FC<SearchBarProps> = ({
         </button>
       </form>
       <motion.button
-        className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400/60 to-pink-300/60 shadow-lg text-white flex items-center justify-center hover:scale-105 hover:shadow-xl transition disabled:opacity-50 border-2 border-white/20 backdrop-blur-xl"
+        className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-blue-400/60 to-pink-300/60 shadow-lg text-white flex items-center justify-center hover:scale-105 hover:shadow-xl transition disabled:opacity-50 border-2 border-white/20 backdrop-blur-xl"
         onClick={onLocationRequest}
         type="button"
         disabled={isLoading}
