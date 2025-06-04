@@ -20,32 +20,30 @@ interface ForecastProps {
 const Forecast: FC<ForecastProps> = ({ data, unit }) => {
   const getDayName = (timeStamp: number) => {
     return new Date(timeStamp * 1000).toLocaleDateString("en-US", {
-      weekday: "long",
+      weekday: "short",
     });
   };
 
   const getWeatherIcon = (condition: string) => {
     switch (condition.toLowerCase()) {
       case "clear":
-        return <Sun className="w-12 h-12 sm:w-16 sm:h-16 text-yellow-500" />;
+        return <Sun className="w-12 h-12 text-yellow-400 drop-shadow-lg" />;
       case "clouds":
-        return <Cloud className="w-12 h-12 sm:w-16 sm:h-16 text-gray-500" />;
+        return <Cloud className="w-12 h-12 text-sky-200 drop-shadow-lg" />;
       case "rain":
-        return (
-          <CloudRain className="w-12 h-12 sm:w-16 sm:h-16 text-blue-500" />
-        );
+        return <CloudRain className="w-12 h-12 text-blue-400 drop-shadow-lg" />;
       case "snow":
-        return <CloudSnow className="w-12 h-12 sm:w-16 sm:h-16 text-white" />;
+        return <CloudSnow className="w-12 h-12 text-white drop-shadow-lg" />;
       case "thunderstorm":
         return (
-          <CloudLightning className="w-12 h-12 sm:w-16 sm:h-16 text-purple-500" />
+          <CloudLightning className="w-12 h-12 text-purple-400 drop-shadow-lg" />
         );
       case "drizzle":
         return (
-          <CloudDrizzle className="w-12 h-12 sm:w-16 sm:h-16 text-yellow-300" />
+          <CloudDrizzle className="w-12 h-12 text-yellow-200 drop-shadow-lg" />
         );
       default:
-        return <Droplets className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400" />;
+        return <Droplets className="w-12 h-12 text-sky-100 drop-shadow-lg" />;
     }
   };
 
@@ -54,14 +52,10 @@ const Forecast: FC<ForecastProps> = ({ data, unit }) => {
 
   const getDailyForecasts = () => {
     const dailyData: { [key: string]: (typeof data.list)[0][] } = {};
-
-    // Skip today's forecast
     const tomorrow = new Date();
     tomorrow.setHours(0, 0, 0, 0);
     tomorrow.setDate(tomorrow.getDate() + 1);
     const tomorrowTimestamp = tomorrow.getTime() / 1000;
-
-    // Group forecasts by day
     data.list.forEach((item) => {
       if (item.dt >= tomorrowTimestamp) {
         const day = new Date(item.dt * 1000).toDateString();
@@ -71,11 +65,9 @@ const Forecast: FC<ForecastProps> = ({ data, unit }) => {
         dailyData[day].push(item);
       }
     });
-
-    // Get the middle entry for each day
     return Object.values(dailyData)
       .map((dayForecasts) => dayForecasts[Math.floor(dayForecasts.length / 2)])
-      .slice(0, 5); // Ensure we only get 5 days
+      .slice(0, 5);
   };
 
   const dailyForecasts = getDailyForecasts();
@@ -87,31 +79,43 @@ const Forecast: FC<ForecastProps> = ({ data, unit }) => {
       transition={{ duration: 0.5, delay: 0.2 }}
       className="w-full lg:max-w-xl"
     >
-      <h3 className="text-white text-lg sm:text-xl mb-4">5-Day Forecast</h3>
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+      <h3 className="text-white text-xl font-bold mb-4 tracking-tight drop-shadow-lg">
+        5-Day Forecast
+      </h3>
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
         {dailyForecasts.map((forecast, index) => (
           <motion.div
             key={forecast.dt}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.1 }}
-            className="bg-white/20 backdrop-blur-md rounded-xl p-3 sm:p-4 flex flex-col items-center text-white"
+            whileHover={{ scale: 1.07 }}
+            className="relative bg-white/10 border border-white/20 rounded-2xl p-4 flex flex-col items-center text-white shadow-xl backdrop-blur-xl overflow-hidden transition"
+            style={{ boxShadow: "0 4px 24px 0 rgba(31, 38, 135, 0.18)" }}
           >
-            <p className="text-xs sm:text-sm mb-2">{getDayName(forecast.dt)}</p>
-            {getWeatherIcon(forecast.weather[0].main)}
-            <p className="text-base sm:text-lg mt-2">
-              {Math.round(forecast.main.temp)}
-              {getUnitSymbol()}
-            </p>
-
-            <div className="mt-2 flex justify-between w-full text-xs opacity-70">
-              <div className="flex items-center">
-                <Droplets className="w-3 h-3 mr-1" />
-                {forecast.main.humidity}%
-              </div>
-              <div className="flex items-center">
-                <Wind className="w-3 h-3 mr-1" />
-                {Math.round(forecast.wind.speed)} {getSpeedUnit()}
+            {/* Gradient border overlay */}
+            <div
+              className="absolute inset-0 rounded-2xl pointer-events-none border-2 border-transparent bg-gradient-to-br from-blue-400/20 via-pink-300/10 to-yellow-200/10"
+              style={{ zIndex: 0 }}
+            />
+            <div className="relative z-10 flex flex-col items-center">
+              <p className="text-sm font-semibold mb-2 text-white/80 tracking-wide">
+                {getDayName(forecast.dt)}
+              </p>
+              {getWeatherIcon(forecast.weather[0].main)}
+              <p className="text-2xl font-bold mt-2 drop-shadow-xl">
+                {Math.round(forecast.main.temp)}
+                {getUnitSymbol()}
+              </p>
+              <div className="mt-2 flex flex-col gap-1 w-full text-xs opacity-80">
+                <div className="flex items-center justify-center gap-1">
+                  <Droplets className="w-4 h-4 mr-1 text-sky-200" />
+                  {forecast.main.humidity}%
+                </div>
+                <div className="flex items-center justify-center gap-1">
+                  <Wind className="w-4 h-4 mr-1 text-cyan-200" />
+                  {Math.round(forecast.wind.speed)} {getSpeedUnit()}
+                </div>
               </div>
             </div>
           </motion.div>
