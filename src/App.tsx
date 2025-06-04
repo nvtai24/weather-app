@@ -1,34 +1,21 @@
-import { useState } from "react";
-import "./App.css";
-import Extension from "./components/Extension";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import axios from "axios";
 import SearchBar from "./components/SearchBar";
-import type { TemperatureUnit } from "./types/Weather";
+import Extension from "./components/Extension";
+import WeatherCard from "./components/WeatherCard";
+import Forecast from "./components/Forecast";
+import type {
+  WeatherData,
+  ForecastData,
+  TemperatureUnit,
+} from "./types/Weather";
 
-function App() {
-  const [unit, setUnit] = useState<TemperatureUnit>("celsius");
+const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
+const API_URL = "https://api.openweathermap.org/data/2.5";
 
-  function handleSearch(city: string): void {
-    throw new Error("Function not implemented.");
-  }
-
-  function handleUnitChange(unit: TemperatureUnit): void {
-    setUnit(unit);
-    console.log(`Unit changed to: ${unit}`);
-  }
-
-  return (
-    <>
-      <div className="bg-blue-500 h-screen py-8">
-        <SearchBar
-          onSearch={handleSearch}
-          onLocationRequest={() => {}}
-          isLoading={false}
-        />
-
-        <Extension unit={unit} onUnitChange={handleUnitChange} />
-      </div>
-    </>
-  );
-}
+const App = () => {
+  return <div></div>;
+};
 
 export default App;

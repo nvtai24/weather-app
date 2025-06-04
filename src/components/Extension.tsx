@@ -14,7 +14,7 @@ const Extension: FC<ExtensionProps> = ({ unit, onUnitChange }) => {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="flex items-center justify-center gap-2"
+      className="flex items-center mx-auto gap-2"
     >
       <Thermometer className="w-5 h-5 text-white" />
       <select

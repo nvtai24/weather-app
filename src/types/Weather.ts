@@ -3,7 +3,7 @@ export interface Coord {
   lon: number; // longitude
 }
 
-export interface Weather {
+export interface WeatherData {
   coord: Coord; // coordinates of the city
   name: string; // city name
   main: {
@@ -40,7 +40,7 @@ export interface Weather {
   }[];
 }
 
-export interface WeatherForecast {
+export interface ForecastData {
   list: {
     dt: number; // forecast time in Unix timestamp
     main: {

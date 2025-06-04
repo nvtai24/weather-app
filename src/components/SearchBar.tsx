@@ -28,7 +28,7 @@ const SearchBar: FC<SearchBarProps> = ({
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-md mx-auto flex gap-2 mb-2"
+        className="w-full max-w-md mx-auto flex gap-2"
       >
         <form onSubmit={handleSubmit} className="flex-1 relative">
           <input
