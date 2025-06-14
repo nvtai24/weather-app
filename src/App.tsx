@@ -138,7 +138,7 @@ const App = () => {
   }, []);
 
   return (
-    <div className="min-h-screen w-full px-2 sm:px-4 py-6 sm:py-8 md:p-8 flex flex-col items-center bg-[url('./src/assets/background.jpg')] bg-cover bg-center bg-no-repeat">
+    <div className="min-h-screen w-full px-2 sm:px-4 py-6 sm:py-8 md:p-8 flex flex-col items-center bg-[url('/public/assets/background.jpg')] bg-cover bg-center bg-no-repeat">
       <div className="w-full max-w-full sm:max-w-3xl md:max-w-5xl lg:max-w-7xl mx-auto">
         <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mb-4 w-full">
           <SearchBar
